@@ -33,6 +33,11 @@ public partial class MainActivity : AndroidX.AppCompat.App.AppCompatActivity
     private IO.Scanbot.Sdk.ScanbotSDK _scanbotSdk;
     private ProgressBar _progress;
     private TextView _licenseIndicator;
+    
+    // Cached dictionaries to avoid allocation on every access
+    private Dictionary<int, Action<Intent>> _documentScannerActions;
+    private Dictionary<int, Action<Intent>> _dataDetectorActions;
+    private Dictionary<int, Action<Intent>> _detectOnImageActions;
 
     protected override void OnCreate(Bundle savedInstanceState)
     {
@@ -51,6 +56,7 @@ public partial class MainActivity : AndroidX.AppCompat.App.AppCompatActivity
             new ListItemButton(this, "Multiple Document Scanning", MultipleDocumentScanning),
             new ListItemButton(this, "Create Document From Image", CreateDocFromImage),
             new ListItemButton(this, "Classic Document Scanner View", ClassicDocumentScannerView),
+            new ListItemButton(this, "Custom Camera Preview (Native)", LaunchCustomCameraPreview),
         ]);
 
         var detectors = (LinearLayout)container.FindViewById(ResourceConstant.Id.data_detectors)!;
@@ -84,6 +90,35 @@ public partial class MainActivity : AndroidX.AppCompat.App.AppCompatActivity
         _licenseIndicator.Text = Texts.NoLicenseFoundTheAppWillTerminateAfterOneMinute;
         _licenseIndicator.Visibility = string.IsNullOrEmpty(MainApplication.LicenseKey) ? ViewStates.Visible : ViewStates.Gone;
 
+        // Initialize cached dictionaries once
+        _documentScannerActions = new Dictionary<int, Action<Intent>>
+        {
+            { ScanDocumentRequestCode, HandleDocumentScannerResult },
+            { ImportImageRequestCode, HandleImageImport },
+        };
+        
+        _dataDetectorActions = new Dictionary<int, Action<Intent>>
+        {
+            { ScanCheckRequestCode, HandleCheckResult },
+            { ScanCreditCardRequestCode, HandleCreditCard },
+            { ExtractDocumentDataRequestCode, HandleDocumentDataExtractorResult },
+            { ScanEhicRequestCode, HandleEhicResult },
+            { ScanMedicalCertificateRequestCode, HandleMedicalCertificateResult },
+            { ScanMrzRequestCode, HandleMrzScanResult },
+            { ScanDataRequestCode, HandleTextDataResult },
+            { ScanVinRequestCode, HandleVinResult },
+        };
+        
+        _detectOnImageActions = new Dictionary<int, Action<Intent>>
+        {
+            { DetectCheckFromImageCode, RecognizeCheckFromImage },
+            { DetectCreditCardFromImageCode, RecognizeCreditCardFromImage },
+            { ExtractDocumentDataFromImageCode, ExtractDocumentDataFromImage },
+            { DetectEhicFromImageCode, RecognizeEhicFromImage },
+            { DetectMedicalCertificateFromImageCode, RecognizeMedicalCertificateFromImage },
+            { DetectMrzFromImageCode, RecognizeMrzFromImage },
+        };
+
         foreach (var button in _buttons)
         {
             button.Click += OnButtonClick;
@@ -116,17 +151,17 @@ public partial class MainActivity : AndroidX.AppCompat.App.AppCompatActivity
             return;
         }
 
-        if (DocumentScannerActions.TryGetValue(requestCode, out var documentScannerAction))
+        if (_documentScannerActions.TryGetValue(requestCode, out var documentScannerAction))
         {
             documentScannerAction(data);
         }
 
-        if (DataDetectorActions.TryGetValue(requestCode, out var dataDetectorAction))
+        if (_dataDetectorActions.TryGetValue(requestCode, out var dataDetectorAction))
         {
             dataDetectorAction(data);
         }            
 
-        if (DetectOnImageActions.TryGetValue(requestCode, out var detectOnImageAction))
+        if (_detectOnImageActions.TryGetValue(requestCode, out var detectOnImageAction))
         {
             detectOnImageAction(data);
         }

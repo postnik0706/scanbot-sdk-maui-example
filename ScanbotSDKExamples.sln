@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31611.283
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11304.161 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MAUI", "MAUI", "{7A223253-21A6-4731-AC63-A095B0CC3687}"
 EndProject
@@ -57,6 +57,7 @@ Global
 		{A3676FA2-6444-4EE2-8E37-918C32FA931C}.Release|x64.Build.0 = Release|Any CPU
 		{17EA4B1B-DE2F-4AAD-9E7B-7F5D28A91CBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{17EA4B1B-DE2F-4AAD-9E7B-7F5D28A91CBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17EA4B1B-DE2F-4AAD-9E7B-7F5D28A91CBC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{17EA4B1B-DE2F-4AAD-9E7B-7F5D28A91CBC}.Debug|ARM64.ActiveCfg = Debug|ARM64
 		{17EA4B1B-DE2F-4AAD-9E7B-7F5D28A91CBC}.Debug|ARM64.Build.0 = Debug|ARM64
 		{17EA4B1B-DE2F-4AAD-9E7B-7F5D28A91CBC}.Debug|ARM64.Deploy.0 = Debug|ARM64

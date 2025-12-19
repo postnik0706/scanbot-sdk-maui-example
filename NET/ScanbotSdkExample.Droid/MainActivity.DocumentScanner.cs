@@ -13,12 +13,6 @@ namespace ScanbotSdkExample.Droid;
 
 public partial class MainActivity
 {
-    private Dictionary<int, Action<Intent>> DocumentScannerActions => new Dictionary<int, Action<Intent>>
-    {
-        { ScanDocumentRequestCode, HandleDocumentScannerResult },
-        { ImportImageRequestCode, HandleImageImport },
-    };
-
     private void SingleDocumentScanning()
     {
         if (!CheckLicense())
@@ -125,6 +119,21 @@ public partial class MainActivity
     private void ClassicDocumentScannerView()
     {
         Intent intent = new Intent(this, typeof(ClassicDocumentScannerViewActivity));
+        StartActivityForResult(intent, ScanDocumentRequestCode);
+    }
+
+    /// <summary>
+    /// Launches the custom native Android camera preview activity with Scanbot document detection.
+    /// This demonstrates native Camera2 API integration with Scanbot's document detection logic.
+    /// </summary>
+    private void LaunchCustomCameraPreview()
+    {
+        if (!CheckLicense())
+        {
+            return;
+        }
+
+        Intent intent = new Intent(this, typeof(CustomCameraPreviewActivity));
         StartActivityForResult(intent, ScanDocumentRequestCode);
     }
 }

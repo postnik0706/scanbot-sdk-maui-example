@@ -257,19 +257,29 @@ class PageAdapter : RecyclerView.Adapter
     public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
         var page = _pages[position];
-        (holder as PageViewHolder)?.Image.SetImageResource(0);
+        var viewHolder = holder as PageViewHolder;
+        if (viewHolder == null) return;
+        
+        // Dispose old bitmap to prevent memory leak
+        var oldDrawable = viewHolder.Image.Drawable as Android.Graphics.Drawables.BitmapDrawable;
+        if (oldDrawable?.Bitmap != null)
+        {
+            viewHolder.Image.SetImageDrawable(null);
+            oldDrawable.Bitmap.Dispose();
+        }
+        
+        viewHolder.Image.SetImageResource(0);
 
         var options = new BitmapFactory.Options();
         if (File.Exists(page.ScannedPagePreviewUri.Path))
         {
             var bitmap = _fileProcessor.ReadImage(page.ScannedPagePreviewUri, options);
-
-            (holder as PageViewHolder)?.Image.SetImageBitmap(bitmap);
+            viewHolder.Image.SetImageBitmap(bitmap);
         }
         else
         {
             var bitmap = _fileProcessor.ReadImage(page.OriginalPagePreviewUri, options);
-            (holder as PageViewHolder)?.Image.SetImageBitmap(bitmap);
+            viewHolder.Image.SetImageBitmap(bitmap);
         }
     }
 }

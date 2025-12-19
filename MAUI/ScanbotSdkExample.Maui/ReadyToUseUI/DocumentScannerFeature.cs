@@ -1,5 +1,6 @@
 using ScanbotSDK.MAUI;
 using ScanbotSDK.MAUI.Common;
+using ScanbotSDK.MAUI.Core.Document;
 using ScanbotSDK.MAUI.Document;
 using ScanbotSdkExample.Maui.ClassicUI.MVVM.Views;
 using ScanbotSdkExample.Maui.ClassicUI.Pages;
@@ -9,15 +10,137 @@ namespace ScanbotSdkExample.Maui.ReadyToUseUI;
 
 public static class DocumentScannerFeature
 {
+    private static DocumentScanningFlow GetConfiguration()
+    {
+        var configuration = new DocumentScanningFlow()
+        {
+            OutputSettings = new DocumentScannerOutputSettings()
+            {
+                PagesScanLimit = 1,
+            },
+            Appearance = new DocumentFlowAppearanceConfiguration()
+            {
+                //OrientationLockMode = this.settings.SmartcaptureOrientationLockMode,
+                NavigationBarMode = NavigationBarMode.Hidden,
+                StatusBarMode = StatusBarMode.Hidden,
+            },
+            Screens = new DocumentScannerScreens()
+            {
+                ReorderPages = new ReorderPagesScreenConfiguration()
+                {
+                    Guidance = new UserGuidanceConfiguration()
+                    {
+                        Visible = false
+                    }
+                },
+                Camera = new CameraScreenConfiguration()
+                {
+                    CameraConfiguration = new DocumentScannerCameraConfiguration()
+                    {
+                        CameraPreviewMode = CameraPreviewMode.FitIn,
+                        FlashEnabled = true,
+                        AutoSnappingEnabled = true,
+                        //AutoSnappingSensitivity = autoSnappingSensitivity,
+                        PinchToZoomEnabled = true,
+                        CaptureQualityPrioritization = ScanbotSDK.MAUI.Document.CapturePhotoQualityPrioritization.Balanced,
+                        DefaultZoomFactor = 0.5,
+                        //MinFocusDistanceLock = 0.0f,
+                        AutoSnappingDelay = 60,
+                        CameraModule = CameraModule.BackWidest,
+                        TouchToFocusEnabled = true,
+                    },
+                    /*ScannerParameters = new DocumentScannerParameters()
+                    {
+                        //AcceptedAngleScore = this.settings.SmartCaptureAcceptedAngleScore,
+                        //AcceptedSizeScore = this.settings.SmartCaptureAcceptedSizeScore,
+                        //AcceptedAspectRatioScore = this.settings.SmartCaptureAcceptedAspectRatioScore,
+                    }, */
+                    Acknowledgement = new AcknowledgementScreenConfiguration()
+                    {
+                        AcknowledgementMode = AcknowledgementMode.None,
+                    },
+                    CaptureFeedback = new CaptureFeedback()
+                    {
+                        CameraBlinkEnabled = false,
+                        SnapFeedbackMode = new PageSnapCheckMarkAnimation()
+                    },
+                    Introduction = new IntroductionScreenConfiguration()
+                    {
+                        ShowAutomatically = false,
+                    },
+                    Polygon = new DocumentPolygonConfiguration()
+                    {
+                        Visibility = UserGuidanceVisibility.Enabled,
+
+                    },
+                    ScanAssistanceOverlay = new ScanAssistanceOverlay()
+                    {
+                        Visible = false,
+
+                    },
+                    TopBarIntroButton = new IconButton()
+                    {
+                        Visible = false,
+
+                    },
+                    TopUserGuidance = new UserGuidanceConfiguration()
+                    {
+                        Visible = false,
+
+                    },
+                    UserGuidance = new DocumentScannerUserGuidance()
+                    {
+                        Visibility = UserGuidanceVisibility.Enabled,
+                        StatesTitles = new UserGuidanceStates()
+                        {
+                            Capturing = "Captured image, now processing"
+                        }
+
+                    },
+                    ViewFinder = new ViewFinderConfiguration()
+                    {
+                        Visible = false,
+                    },
+                },
+                Cropping = new CroppingScreenConfiguration()
+                {
+                    BottomBar = new CroppingBottomBar()
+                },
+                Review = new ReviewScreenConfiguration()
+                {
+                    Enabled = false,
+
+                }
+            },
+            //KeepScreenOn = false
+        };
+
+        return configuration;
+    }
+
     public static async Task SingleDocumentScanningClicked()
     {
-        var configuration = new DocumentScanningFlow();
+        /*var configuration = new DocumentScanningFlow();
 
         // Disable the multiple page behavior
         configuration.OutputSettings.PagesScanLimit = 1;
 
         // Enable/Disable the review screen.
         configuration.Screens.Review.Enabled = false;
+
+        configuration.Screens.Camera.UserGuidance.Visibility = UserGuidanceVisibility.Disabled;
+
+        configuration.Screens.Camera.CameraConfiguration.CameraPreviewMode = CameraPreviewMode.FitIn;
+
+        configuration.Screens.Camera.CameraConfiguration.DefaultZoomFactor = 0.5f;
+
+        configuration.Screens.Camera.CameraConfiguration.CameraModule = CameraModule.BackWidest;
+
+        configuration.Screens.Camera.Introduction.ShowAutomatically = false;
+        if (configuration.Screens.Camera.Introduction.Items != null)
+        {
+            configuration.Screens.Camera.Introduction.Items = new List<IntroListEntry>().ToArray();
+        }
 
         // Enable/Disable Auto Snapping behavior
         configuration.Screens.Camera.CameraConfiguration.AutoSnappingEnabled = true;
@@ -46,8 +169,11 @@ public static class DocumentScannerFeature
         configuration.Screens.Camera.UserGuidance.StatesTitles.TooDark = "Need more lighting to detect a document";
         configuration.Screens.Camera.UserGuidance.StatesTitles.TooSmall = "Document too small";
         configuration.Screens.Camera.UserGuidance.StatesTitles.NoDocumentFound = "Could not detect a document";
+         */
 
-        TestForceCloseDocumentScanner();
+        //TestForceCloseDocumentScanner();
+
+        var configuration = GetConfiguration();
 
         var result = await ScanbotSDKMain.Rtu.DocumentScanner.LaunchAsync(configuration);
         if (result.Status == OperationResult.Ok)
@@ -58,7 +184,7 @@ public static class DocumentScannerFeature
 
     public static async Task SingleFinderDocumentScanningClicked()
     {
-        var configuration = new DocumentScanningFlow();
+        /*var configuration = new DocumentScanningFlow();
 
         // Disable the multiple page behavior
         configuration.OutputSettings.PagesScanLimit = 1;
@@ -66,6 +192,18 @@ public static class DocumentScannerFeature
         // Enable view finder
         configuration.Screens.Camera.ViewFinder.Visible = true;
         configuration.Screens.Camera.ViewFinder.AspectRatio = new AspectRatio(width: 3, height: 4);
+
+
+        configuration.Screens.Camera.UserGuidance.Visibility = UserGuidanceVisibility.Disabled;
+
+        configuration.Screens.Camera.CameraConfiguration.CameraPreviewMode = CameraPreviewMode.FitIn;
+
+        configuration.Screens.Camera.CameraConfiguration.DefaultZoomFactor = 0.5f;
+
+        configuration.Screens.Camera.CameraConfiguration.CameraModule = CameraModule.BackWidest;
+
+        configuration.Screens.Camera.Introduction.ShowAutomatically = false;
+
 
         // Enable/Disable the review screen.
         configuration.Screens.Review.Enabled = false;
@@ -85,6 +223,9 @@ public static class DocumentScannerFeature
         configuration.Screens.Camera.UserGuidance.StatesTitles.TooDark = "Need more lighting to detect a document";
         configuration.Screens.Camera.UserGuidance.StatesTitles.TooSmall = "Document too small";
         configuration.Screens.Camera.UserGuidance.StatesTitles.NoDocumentFound = "Could not detect a document";
+        */
+
+        var configuration = GetConfiguration();
 
         var result = await ScanbotSDKMain.Rtu.DocumentScanner.LaunchAsync(configuration);
         if (result.Status == OperationResult.Ok)
@@ -95,12 +236,23 @@ public static class DocumentScannerFeature
 
     public static async Task MultipleDocumentScanningClicked()
     {
+        /*
         var configuration = new DocumentScanningFlow();
         // Enable the multiple page behavior
         configuration.OutputSettings.PagesScanLimit = 0;
 
         // Enable/Disable Auto Snapping behavior
         configuration.Screens.Camera.CameraConfiguration.AutoSnappingEnabled = true;
+
+        configuration.Screens.Camera.UserGuidance.Visibility = UserGuidanceVisibility.Disabled;
+
+        configuration.Screens.Camera.CameraConfiguration.CameraPreviewMode = CameraPreviewMode.FitIn;
+
+        configuration.Screens.Camera.CameraConfiguration.DefaultZoomFactor = 0.5f;
+
+        configuration.Screens.Camera.CameraConfiguration.CameraModule = CameraModule.BackWidest;
+
+        configuration.Screens.Camera.Introduction.ShowAutomatically = false;
 
         // Hide/Unhide the auto snapping enable/disable button
         configuration.Screens.Camera.BottomBar.AutoSnappingModeButton.Visible = true;
@@ -143,6 +295,10 @@ public static class DocumentScannerFeature
         configuration.Screens.Cropping.BottomBar.ResetButton.Visible = true;
         configuration.Screens.Cropping.BottomBar.RotateButton.Visible = true;
         configuration.Screens.Cropping.BottomBar.DetectButton.Visible = true;
+
+        */
+
+        var configuration = GetConfiguration();
 
         var result = await ScanbotSDKMain.Rtu.DocumentScanner.LaunchAsync(configuration);
         if (result.Status == OperationResult.Ok)

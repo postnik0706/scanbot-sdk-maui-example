@@ -7,9 +7,15 @@
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 	<application android:label="@string/app_name" android:theme="@style/CustomAppTheme">
 		<provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.provider" android:exported="false" android:grantUriPermissions="true">
 			<meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths" />
 		</provider>
+		<!-- Custom camera preview activity with native camera and Scanbot integration -->
+		<activity android:name="ScanbotSdkExample.Droid.Activities.CustomCameraPreviewActivity" 
+			android:exported="false" 
+			android:theme="@style/Theme.AppCompat"
+			android:screenOrientation="portrait" />
 	</application>
 </manifest>

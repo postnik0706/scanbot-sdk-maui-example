@@ -14,6 +14,12 @@
         <WarningsAsErrors>NU1603</WarningsAsErrors>
         <PackageId>ScanbotSdkExample.Droid</PackageId>
     </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<AndroidUseAssemblyStore>false</AndroidUseAssemblyStore>
+		<EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
+		<AndroidLinkMode>None</AndroidLinkMode>
+		<AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+	</PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Scanbot.Xamarin.ImagePicker" Version="0.0.3-beta.1" />
         <PackageReference Include="ScanbotSDK.NET" Version="7.1.2-beta.1" />

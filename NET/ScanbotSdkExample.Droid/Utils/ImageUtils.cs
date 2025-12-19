@@ -24,10 +24,14 @@ public static class ImageUtils
 
     public static byte[] ConvertToByteArray(IList<Java.Lang.Byte> rawBytes)
     {
-        byte[] byteArray = new byte[rawBytes.Count];
-        for (int i = 0; i < rawBytes.Count; i++)
+        int count = rawBytes.Count;
+        byte[] byteArray = new byte[count];
+        
+        // Optimized: cache count and minimize virtual calls
+        for (int i = 0; i < count; i++)
         {
-            byteArray[i] = (byte)rawBytes[i].ByteValue();
+            var javaByteObj = rawBytes[i];
+            byteArray[i] = javaByteObj != null ? (byte)javaByteObj.ByteValue() : (byte)0;
         }
         return byteArray;
     }

@@ -14,16 +14,6 @@ namespace ScanbotSdkExample.Droid;
 
 public partial class MainActivity
 {
-    private Dictionary<int, Action<Intent>> DetectOnImageActions => new Dictionary<int, Action<Intent>>
-    {
-        { DetectMrzFromImageCode, RecognizeMrzFromImage },
-        { DetectEhicFromImageCode, RecognizeEhicFromImage },
-        { DetectCheckFromImageCode, RecognizeCheckFromImage },
-        { DetectMedicalCertificateFromImageCode, RecognizeMedicalCertificateFromImage },
-        { ExtractDocumentDataFromImageCode, ExtractDocumentDataFromImage },
-        { DetectCreditCardFromImageCode, RecognizeCreditCardFromImage },
-    };
-
     private void LaunchImagePicker(int activityRequestCode)
     {
         var intent = new Intent();

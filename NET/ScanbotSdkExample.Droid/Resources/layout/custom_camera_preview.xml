@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Native camera preview using SurfaceView -->
+    <SurfaceView
+        android:id="@+id/texture_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Custom overlay view for drawing detected document polygon -->
+    <ScanbotSdkExample.Droid.Views.DocumentPolygonOverlayView
+        android:id="@+id/polygon_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:visibility="gone"/>
+
+    <!-- Top controls - Flash and Auto Snap buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:gravity="end">
+
+        <ImageButton
+            android:id="@+id/auto_snapping_toggle_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_rotate"
+            android:contentDescription="Auto snapping"
+            android:tint="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/flash_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_camera"
+            android:contentDescription="Flash"
+            android:tint="@android:color/white" />
+    </LinearLayout>
+
+    <!-- User guidance text - shows document detection status -->
+    <TextView
+        android:id="@+id/user_guidance_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="Positioning document..."
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:padding="15dp"
+        android:background="#99000000"
+        android:visibility="gone" />
+
+    <!-- Progress bar - shown during image processing -->
+    <ProgressBar
+        android:id="@+id/image_processing_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <!-- Shutter button - capture document -->
+    <ImageButton
+        android:id="@+id/shutter_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="@string/app_name"
+        android:background="@android:drawable/ic_menu_camera"
+        android:scaleType="centerInside"
+        android:elevation="6dp" />
+
+</FrameLayout>

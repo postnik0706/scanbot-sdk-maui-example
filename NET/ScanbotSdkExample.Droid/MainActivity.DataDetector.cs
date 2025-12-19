@@ -23,19 +23,7 @@ using ScanbotSdkExample.Droid.Utils;
 namespace ScanbotSdkExample.Droid;
 
 public partial class MainActivity
-{
-    private Dictionary<int, Action<Intent>> DataDetectorActions => new Dictionary<int, Action<Intent>>
-    {
-        { ScanMrzRequestCode, HandleMrzScanResult },
-        { ExtractDocumentDataRequestCode, HandleDocumentDataExtractorResult },
-        { ScanEhicRequestCode, HandleEhicResult },
-        { ScanVinRequestCode, HandleVinResult },
-        { ScanDataRequestCode, HandleTextDataResult },
-        { ScanMedicalCertificateRequestCode, HandleMedicalCertificateResult },
-        { ScanCheckRequestCode, HandleCheckResult },
-        { ScanCreditCardRequestCode, HandleCreditCard },
-    };
-    
+{    
     private void ScanMrz()
     {
         var configuration = new MrzScannerScreenConfiguration();
